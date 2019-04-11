@@ -1,9 +1,21 @@
 function init(){
-	var onload = createMap('map2');
+	var map1 = createMap('map1', 51.505, -0.9);
+	var map2 = createMap('map2', 44.954, -93.091);
+
+	var curLat = map1.lat;
+	console.log(curLat);
+	new Vue({
+	  el: '#app',
+	  data: { 
+	  		latitude: "",
+	  		longitude: ""
+	   },
+	  methods: { /* Any app-specific functions go here */ },
+	});
 }
 
-function createMap(map) {
-	var mymap2 = L.map(map).setView([51.505, -0.09], 13);
+function createMap(mapID, lat, long) {
+	var mymap = L.map(mapID).setView([lat, long], 13);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -11,6 +23,8 @@ function createMap(map) {
 			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 		id: 'mapbox.light'
-	}).addTo(mymap2);
+	}).addTo(mymap);
+
+	return mymap
 }
 

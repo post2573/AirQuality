@@ -21,20 +21,29 @@
 	  		<h1>Air Quality</h1>
 	  	</div>
 	  	
-	  	<div id="map1" style="width: 600px; height: 400px;">
+	  	<div id="map1"></div>
+	  	<div id="userInput1">
+	  		<p>Latitude:</p>
+	  		<form id="lat">
+	  			<input type="text" name="latitude">
+	  		</form>
+	  		<p>Longitude:</p>
+	  		<form id="long">
+	  			<input type="text" name="longitude">
+	  		</form>
 	  	</div>
-	  	<script>
-			var mymap = L.map('map1').setView([51.505, -0.09], 13);
-
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox.light'
-	}).addTo(mymap);
-	  	</script>
 	  	<div id="map2"></div>
+	  	<div id="userInput2">
+	  		<p>Latitude:</p>
+	  		<form id="lat">
+	  			<input type="text" name="latitude">
+	  		</form>
+	  		<p>Longitude:</p>
+	  		<form id="long">
+	  			<input type="text" name="longitude">
+	  		</form>
+	  	</div>
+
 	  	<script>var init = init()</script>
 	</body>
  </html>
