@@ -1,8 +1,10 @@
+var app;
 function init(){
 	var map1 = createMap('map1', 51.505, -0.9);
 	var map2 = createMap('map2', 44.954, -93.091);
 
-	var curLat = map1.lat;
+	var latLong = map1.getCenter();
+	var curLat = latLong.lat
 	console.log(curLat);
 	new Vue({
 	  el: '#app',
