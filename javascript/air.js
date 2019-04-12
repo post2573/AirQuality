@@ -1,19 +1,27 @@
 var app;
+var map1;
+var map2;
 function init(){
-	var map1 = createMap('map1', 51.505, -0.9);
-	var map2 = createMap('map2', 44.954, -93.091);
-
-	var latLong = map1.getCenter();
-	var curLat = latLong.lat
-	console.log(curLat);
-	new Vue({
+	app = new Vue({
 	  el: '#app',
 	  data: { 
-	  		latitude: "",
-	  		longitude: ""
+	  		map1: {
+	  			latitude: 51.505,
+	  			longitude: -0.9
+	   		},
+	   		map2: {
+	  			latitude: 44.954,
+	  			longitude: -93.091
+	   		}
 	   },
 	  methods: { /* Any app-specific functions go here */ },
 	});
+	map1 = createMap('map1', app.map1.latitude, app.map1.longitude);
+	map2 = createMap('map2', app.map2.latitude, app.map2.longitude);
+
+	//add event listener
+	map1.on('moveend', onMap1Pan);
+	map2.on('moveend', onMap2Pan);
 }
 
 function createMap(mapID, lat, long) {
@@ -28,5 +36,21 @@ function createMap(mapID, lat, long) {
 	}).addTo(mymap);
 
 	return mymap
+}
+
+function onMap1Pan(e){
+	var center = map1.getCenter();
+	rlat = Math.round(center.lat * 1000) / 1000;
+	rlng = Math.round(center.lng * 1000) / 1000;
+	app.map1.latitude = rlat;
+	app.map1.longitude = rlng;
+}
+
+function onMap2Pan(e){
+	var center = map2.getCenter();
+	rlat = Math.round(center.lat * 1000) / 1000;
+	rlng = Math.round(center.lng * 1000) / 1000;
+	app.map2.latitude = rlat;
+	app.map2.longitude = rlng;
 }
 
