@@ -24,22 +24,28 @@
 		  		<h1>Air Quality</h1>
 		  	</div>
 		  	
-		  	<div id="map1"></div>
-		  	<div id="userInput1">
-		  		<p>Latitude:</p>
-		  		<input id="lat1" type="text" name="latitude" :value="map1.latitude">
-		  		<p>Longitude:</p>
-		  		<input id="long1" type="text" name="longitude" :value="map1.longitude">
-		  		<button>Go</button>
-		  	</div>
-		  	<div id="map2"></div>
-		  	<div id="userInput2">
-		  		<p>Latitude:</p>
-		  			<input id="lat2" type="text" name="latitude" :value="map2.latitude">
-		  		<p>Longitude:</p>
-		  			<input id="long2" type="text" name="longitude" :value="map2.longitude">
-		  		<button>Go</button>
-		  	</div>
+		  	<div class="maps"/>
+			  	<div id="map1"></div>
+			  	<div id="map2"></div>
+			</div>
+			
+			<div class = "ui">  	
+			  	<div id="userInput1">
+			  		<p>Latitude:</p>
+			  		<input id="lat1" type="text" name="latitude" :value="map1.latitude">
+			  		<p>Longitude:</p>
+			  		<input id="long1" type="text" name="longitude" :value="map1.longitude">
+			  		<button id="map1B">Go</button>
+			  	</div>
+			  	
+			  	<div id="userInput2">
+			  		<p>Latitude:</p>
+			  			<input id="lat2" type="text" name="latitude" :value="map2.latitude">
+			  		<p>Longitude:</p>
+			  			<input id="long2" type="text" name="longitude" :value="map2.longitude">
+			  		<button id="map2B">Go</button>
+			  	</div>
+			 </div>
 		</div>
 		  	<script>var init = init()</script>
 
