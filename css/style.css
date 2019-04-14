@@ -71,3 +71,7 @@ body {
 .ui input{
 	width: 100px;
 }
+
+#uiControls {
+	background-color: rgb(188, 243, 255);
+}

@@ -6,14 +6,34 @@ function init(){
 	  el: '#app',
 	  data: { 
 	  		map1: {
-	  			latitude: 51.505,
-	  			longitude: -0.9
+	  			latitude: 51.509865,
+	  			longitude: -0.118092,
+	  			city: "London"
 	   		},
 	   		map2: {
 	  			latitude: 44.954,
-	  			longitude: -93.091
+	  			longitude: -93.091,
+	  			city: "St. Paul"
 	   		},
-	   		airDataResults: []
+	   		airDataResults: [],
+	   		particleType: "",
+	   		particleTypeOptions: [
+                { value: "pm25", text: "PM2.5" },
+                { value: "pm10", text: "PM10" },
+                { value: "so2", text: "SO₂" },
+                { value: "no2", text: "NO₂" },
+                { value: "o3", text: "O₃" },
+                { value: "co", text: "CO" },
+                { value: "bc", text: "BC" }
+            ],
+            particleValue: "",
+            particleValueOptions: [
+                { value: "=", text: "=" },
+                { value: ">", text: ">" },
+                { value: "<", text: "<" },
+                { value: ">=", text: ">=" },
+                { value: "<=", text: "<=" }
+            ]
 	   },
 	  methods: { /* Any app-specific functions go here */ },
 	});
@@ -22,6 +42,7 @@ function init(){
 	map1 = createMap('map1', app.map1.latitude, app.map1.longitude);
 	map2 = createMap('map2', app.map2.latitude, app.map2.longitude);
 	var airData = retrieveParticleData();
+	var airData2 = retrieveParticleData2();
 
 	//add event listeners
 	$("#map1B").click(updateLatLong);
@@ -50,6 +71,8 @@ function onMap1Pan(e){
 	rlng = Math.round(center.lng * 1000) / 1000;
 	app.map1.latitude = rlat;
 	app.map1.longitude = rlng;
+	retrieveParticleData();
+	updateCityOnPan(rlat,rlng);
 }
 
 function onMap2Pan(e){
@@ -58,6 +81,52 @@ function onMap2Pan(e){
 	rlng = Math.round(center.lng * 1000) / 1000;
 	app.map2.latitude = rlat;
 	app.map2.longitude = rlng;
+	retrieveParticleData2();
+	updateCity2OnPan(rlat, rlng);
+}
+
+function updateCityOnPan(lat, lng){
+
+	var request = {
+        	type: "GET",
+            url: "https://nominatim.openstreetmap.org/reverse?format=json" + "&lat=" + lat + "&lon=" + lng,
+            dataType: "json",
+            success: function(data){
+            	if(data.address.city != undefined){
+            		app.map1.city = data.address.city;
+            	}
+            	else{
+            	
+            		//console.log(data.address.county);
+        			app.map1.city = data.address.county;
+            	}
+            	//console.log(app.map1.city);
+            	console.log(data);
+            }
+        };
+        $.ajax(request);
+}
+
+function updateCity2OnPan(lat, lng){
+
+	var request = {
+        	type: "GET",
+            url: "https://nominatim.openstreetmap.org/reverse?format=json" + "&lat=" + lat + "&lon=" + lng,
+            dataType: "json",
+            success: function(data){
+            	if(data.address.city != undefined){
+            		app.map2.city = data.address.city;
+            	}
+            	else{
+            	
+            		//console.log(data.address.county);
+        			app.map2.city = data.address.county;
+            	}
+            	//console.log(app.map1.city);
+            	console.log(data);
+            }
+        };
+        $.ajax(request);
 }
 
 function updateLatLong(){
@@ -71,6 +140,21 @@ function updateLatLong(){
 	map1.setView([lat, lng], 9);
 	//console.log(app.map1.latitude);
 	//app.map1.latitude = $("#lat1").value;
+	retrieveParticleData();
+}
+
+function updateLatLong2(){
+	//L.latLng($("#lat1").value, $("#long1").value)
+	//console.log($("#lat1").target.value); 
+	lat = $('#lat2')[0].value;
+	app.map2.latitude = lat;
+	lng = $('#long2')[0].value;
+	app.map2.longitude = lng;
+	//console.log(app.map1.latitude);
+	map2.setView([lat, lng], 9);
+	//console.log(app.map1.latitude);
+	//app.map1.latitude = $("#lat1").value;
+	retrieveParticleData2();
 }
 
 function retrieveParticleData(){
@@ -100,6 +184,34 @@ function retrieveParticleData(){
     
 }
 
+function retrieveParticleData2(){
+	
+	var lat = app.map2.latitude;
+	var lng = app.map2.longitude;
+
+	var nwCorner = map2.getBounds().getNorthWest();
+	var seCorner = map2.getBounds().getSouthEast();
+	var rad = Math.round(CalculateDistance(nwCorner.lat,nwCorner.lng,seCorner.lat,seCorner.lng) / 2); 
+	console.log(rad);
+	if (app.map2.latitude !== "" && app.map2.longitude !== "")
+    {
+        var request = {
+        	type: "GET",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-14&date_to=2019-04-13",
+            dataType: "json",
+            success: ParticleData2
+        };
+        $.ajax(request);
+    }
+    else
+    {
+    	console.log("request failed");
+        app.airDataResults = [];
+    }
+    
+}
+
+
 function ParticleData(data)
 {
 	console.log(data);
@@ -109,12 +221,21 @@ function ParticleData(data)
 	for (var m in data.results){
 		var cur = data.results[m];
 		var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map1);
-	}
-	
-    
-    
+	} 
 }
 
+
+function ParticleData2(data)
+{
+	console.log(data);
+	
+	app.airDataResults = data;
+	//console.log(data.coordinates);
+	for (var m in data.results){
+		var cur = data.results[m];
+		var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map2);
+	}
+}
 
 function CalculateDistance(lat1, lon1, lat2, lon2) {
     lat1 = lat1 * Math.PI / 180;

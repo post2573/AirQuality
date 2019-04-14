@@ -38,12 +38,35 @@
 			  		<button id="map1B">Go</button>
 			  	</div>
 			  	
+			  	
 			  	<div id="userInput2">
 			  		<p>Latitude:</p>
 			  			<input id="lat2" type="text" name="latitude" :value="map2.latitude">
 			  		<p>Longitude:</p>
 			  			<input id="long2" type="text" name="longitude" :value="map2.longitude">
 			  		<button id="map2B">Go</button>
+			  	</div>
+			  	<h2>~OR~</h2>
+			  	<div id="byCity">
+			  		<p>Search by City: </p>
+			  		<input id="city1" type="text" :value="map1.city">
+			  		<p>Search by City: </p>
+			  		<input id="city2" type="text" :value="map2.city">
+			  	</div>
+			  	<div id="uiControls">
+			  		<h2>Filters</h2>
+			  		<p>Particle Type</p>
+			  		<select id="type" v-model="particleType">
+            			<option v-for="option in particleTypeOptions" :value="option.value">{{ option.text }}</option>
+        			</select>
+        			<select id="type2" v-model="particleValue">
+            			<option v-for="option in particleValueOptions" :value="option.value">{{ option.text }}</option>
+        			</select>
+        			<input id="partVal" type="text" value="" placeholder="particle value"><br>
+        			<p>From: </p>
+        			<input type="date" min="2019-01-15" max="2019-04-14"><br>
+        			<p>To: </p>
+        			<input type="date" min="2019-01-15" max="2019-04-14"><br>
 			  	</div>
 			 </div>
 		</div>
