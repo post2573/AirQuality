@@ -51,7 +51,7 @@ function init(){
 }
 
 function createMap(mapID, lat, long) {
-	var mymap = L.map(mapID).setView([lat, long], 11);
+	var mymap = L.map(mapID).setView([lat, long], 13);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 16,
@@ -170,7 +170,7 @@ function retrieveParticleData(){
     {
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-14&date_to=2019-04-13&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-14&date_to=2019-04-13&limit=100",
             dataType: "json",
             success: ParticleData
         };
@@ -197,7 +197,7 @@ function retrieveParticleData2(){
     {
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-14&date_to=2019-04-13&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-14&date_to=2019-04-13&limit=100",
             dataType: "json",
             success: ParticleData2
         };
