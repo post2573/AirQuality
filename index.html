@@ -74,10 +74,14 @@
 			 <div id = "tables">
 			 	<table id = "table1">
 			 		<thead>
+			 			<th>Location</th>
 			 			<th>Particle Type</th>
 			 			<th>Particle Value</th>
 			 		</thead>
 			 		<tbody>
+			 			<td>
+			 				<option v-for = "item in airDataResults" :value = "option.value">{{item.text}}</option>
+			 			</td>
 			 			<td>
 			 				<option v-for = "option in particleTypeOptions" :value = "option.value">{{option.text}}</option>
 			 			</td>
@@ -87,10 +91,14 @@
 			 	</table>
 			 	<table id = "table2">
 			 		<thead>
+			 			<th>Location</th>
 			 			<th>Particle Type</th>
 			 			<th>Particle Value</th>
 			 		</thead>
 			 		<tbody>
+			 			<td>
+			 				<option v-for = "item in airDataResults" :value = "option.value">{{item.text}}</option>
+			 			</td>
 			 			<td>
 			 				<option v-for = "option in particleTypeOptions" :value = "option.value">{{option.text}}</option>
 			 			</td>
