@@ -69,6 +69,36 @@
         			<input type="date" min="2019-01-15" max="2019-04-14"><br>
 			  	</div>
 			 </div>
+
+
+			 <div id = "tables">
+			 	<table id = "table1">
+			 		<thead>
+			 			<th>Particle Type</th>
+			 			<th>Particle Value</th>
+			 		</thead>
+			 		<tbody>
+			 			<td>
+			 				<option v-for = "option in particleTypeOptions" :value = "option.value">{{option.text}}</option>
+			 			</td>
+			 			<td>
+			 				<option v-for = "option in particleValue" :value = "option.value">{{option.text}}</option>
+			 			</td>
+			 	</table>
+			 	<table id = "table2">
+			 		<thead>
+			 			<th>Particle Type</th>
+			 			<th>Particle Value</th>
+			 		</thead>
+			 		<tbody>
+			 			<td>
+			 				<option v-for = "option in particleTypeOptions" :value = "option.value">{{option.text}}</option>
+			 			</td>
+			 			<td>
+			 				<option v-for = "option in particleValue" :value = "option.value">{{option.text}}</option>
+			 			</td>
+			 	</table>
+			 </div>
 		</div>
 		  	<script>var init = init()</script>
 

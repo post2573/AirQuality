@@ -14,6 +14,30 @@ body {
 	background-color: rgb(137, 233, 255);
 	color: #0b3e49;
 }
+table{
+  border: 3px solid #0b3e49;
+  margin-top: 1rem;
+  text-align: left;
+  border-collapse: collapse;
+  background: #CFCFCF;
+  background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  background: linear-gradient(top, bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  border-bottom: 3px solid #0b3e49;
+}
+table td, table th {
+  border: 1px solid #0b3e49;
+  padding: 5px 4px;
+}
+table td {
+  font-size: 13px;
+}
+table th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #0b3e49;
+  text-align: left;
+}
 
 #title {
 	width: 100%;
@@ -55,6 +79,18 @@ body {
 #userInput2 {
 	display: inline-block;
 	white-space: nowrap;
+}
+
+
+
+
+#table1{
+	display:inline-block;
+	margin-left: 1rem;
+}
+#table2{
+	display:inline-block;
+	margin-left: 1rem;
 }
 
 .ui {
