@@ -70,6 +70,14 @@ table th {
 	display: inline-block;
 	
 }
+#map2Full{
+	float: left;
+	margin-left: 3rem;
+}
+#map2Full{
+	float: right;
+	margin-right: 3rem;
+}
 
 #userInput1 {
 	display: inline-block;
@@ -80,9 +88,6 @@ table th {
 	display: inline-block;
 	white-space: nowrap;
 }
-
-
-
 
 #table1{
 	display:inline-block;
