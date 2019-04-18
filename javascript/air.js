@@ -48,8 +48,18 @@ function init(){
 	$("#map1B").click(updateLatLong($('#lat1')[0].value, $('#long1')[0].value));
 	$("#map2B").click(updateLatLong2);
 	$("#citySearch").click(cityLookUp);
+	$("#map1Full").click(fullScreen);
 	map1.on('moveend', onMap1Pan);
 	map2.on('moveend', onMap2Pan);
+}
+
+function fullScreen(){
+	console.log("requested");
+	var map1 = document.getElementById("map1");
+	if (map1.requestFullscreen) {
+  		map1.requestFullscreen();
+	}
+	//map1.getreqfullscreen();
 }
 
 function createMap(mapID, lat, long) {
