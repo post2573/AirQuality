@@ -199,7 +199,7 @@ function retrieveParticleData(){
     {
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-18&date_to=2019-04-17&limit=1000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-18&date_to=2019-04-17&limit=100",
             dataType: "json",
             success: function(data){
             	console.log(data);
@@ -235,7 +235,7 @@ function retrieveParticleData2(){
     {
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-20&date_to=2019-04-18&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-20&date_to=2019-04-18&limit=100",
             dataType: "json",
             success: function(data){
             	console.log(data);
