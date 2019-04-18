@@ -16,6 +16,7 @@ function init(){
 	  			city: "St. Paul"
 	   		},
 	   		airDataResults: [],
+	   		measurements: [],
 	   		particleType: "",
 	   		particleTypeOptions: [
                 { value: "pm25", text: "PM2.5" },
@@ -46,9 +47,11 @@ function init(){
 
 	//add event listeners
 	$("#map1B").click(updateLatLong($('#lat1')[0].value, $('#long1')[0].value));
-	$("#map2B").click(updateLatLong2);
+	$("#map2B").click(updateLatLong2($('#lat2')[0].value, $('#long2')[0].value));
 	$("#citySearch").click(cityLookUp);
+	$("#city2Search").click(cityLookUp2);
 	$("#map1Full").click(fullScreen);
+	$("#map2Full").click(fullScreen2);
 	map1.on('moveend', onMap1Pan);
 	map2.on('moveend', onMap2Pan);
 }
@@ -60,6 +63,14 @@ function fullScreen(){
   		map1.requestFullscreen();
 	}
 	//map1.getreqfullscreen();
+}
+
+function fullScreen2(){
+	console.log("requested");
+	var map2 = document.getElementById("map2");
+	if (map2.requestFullscreen) {
+  		map2.requestFullscreen();
+	}
 }
 
 function createMap(mapID, lat, long) {
@@ -86,7 +97,6 @@ function cityLookUp(){
 	var city = $('#city1')[0].value;
 	app.map1.city = city;
 	console.log(city);
-	
 		var request = {
 	        	type: "GET",
 	            url: "https://nominatim.openstreetmap.org/search?q=" + city + "&format=json",
@@ -101,7 +111,30 @@ function cityLookUp(){
 	            }
 	        };
 	        $.ajax(request);
-	
+}
+function cityLookUp2(){
+	//grab user input
+	//look that city up in nominatim
+	//grab the first entries lat and lon
+	//setView of map to that lat lon
+	var prevCity = app.map2.city;
+	var city = $('#city2')[0].value;
+	app.map2.city = city;
+	console.log(city);
+		var request = {
+	        	type: "GET",
+	            url: "https://nominatim.openstreetmap.org/search?q=" + city + "&format=json",
+	            dataType: "json",
+	            success: function(data){
+	            	console.log(data);
+	            	var lat = data[0].lat;
+	            	var lon = data[0].lon;
+	            	//$('#lat1')[0].value = lat;
+	            	//$('#long1')[0].value = lon;
+	            	updateLatLong2(lat, lon);
+	            }
+	        };
+	        $.ajax(request);
 }
 
 function onMap1Pan(e){
@@ -182,12 +215,12 @@ function updateLatLong(lat, lng){
 	retrieveParticleData();
 }
 
-function updateLatLong2(){
+function updateLatLong2(lat,lng){
 	//L.latLng($("#lat1").value, $("#long1").value)
 	//console.log($("#lat1").target.value); 
-	lat = $('#lat2')[0].value;
+	//lat = $('#lat2')[0].value;
 	app.map2.latitude = lat;
-	lng = $('#long2')[0].value;
+	//lng = $('#long2')[0].value;
 	app.map2.longitude = lng;
 	//console.log(app.map1.latitude);
 	map2.setView([lat, lng], 13);
@@ -219,7 +252,20 @@ function retrieveParticleData(){
 				for (var m in data.results){
 					var cur = data.results[m];
 					var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map1);
-	} 
+				}
+				/*for (var i in data.results){
+					var cur = data.results[i];
+					var curLat = cur.coordinates.latitude;
+					var curLon = cur.coordinates.longitude;
+					if(app.measurements.includes([curLat.value, curLon.value])){
+						console.log("Already in measurements");
+					}
+					else{
+						app.measurements.push([cur.coordinates.latitude, cur.coordinates.longitude]);
+						var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map1);
+					}
+					console.log(app.measurements);
+				}*/
             }
         };
         $.ajax(request);
@@ -256,6 +302,7 @@ function retrieveParticleData2(){
 					var cur = data.results[m];
 					var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map2);
 				}
+
             }
         };
         $.ajax(request);
