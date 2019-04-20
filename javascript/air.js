@@ -16,10 +16,7 @@ function init(){
 	  			city: "St. Paul"
 	   		},
 	   		airDataResults: [],
-	   		measurements: [],
-	   		measurements2: [],
-	   		averages: [],
-	   		averages2:[],
+	   		locations1: [],
 	   		particleType: "",
 	   		particleTypeOptions: [
                 { value: "pm25", text: "PM2.5" },
@@ -270,13 +267,14 @@ function retrieveParticleData(){
     	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
             	app.measurements = [];
             	console.log(data.results);
 				for(var i in data.results){
 					var found = undefined;
+					var foundLoc = undefined;
 					var cur = data.results[i];
 					var curLat = cur.coordinates.latitude;
 					var curLon = cur.coordinates.longitude;
@@ -291,6 +289,14 @@ function retrieveParticleData(){
 							break;
 						}
 					}
+
+					for(var a in app.locations1){
+						var curLoc = app.locations1[a];
+						if((curLat === curLoc.lat) && (curLon === curLoc.lon)){
+							foundLoc = a;
+							break;
+						}
+					}
 					if(found == undefined){
 						var x = new PData(curLat, curLon, curDate);
 						//console.log(x.particles[curParticle]);
@@ -300,8 +306,13 @@ function retrieveParticleData(){
 					else{
 						app.measurements[found].particles[curParticle] = curValue;
 					}
+					if(foundLoc == undefined){
+						var y = new locationObj(curLat, curLon);
+						app.locations1.push(y);
+					}
 				}
 				console.log(app.measurements);
+				console.log(app.locations1);
 				placeMarkers();
             }
         };
@@ -342,10 +353,11 @@ function PData(lat, lon, date){
 	}
 }
 
-function averageData(lat, lon){
+//HERE IS THE LOCATION OBJECT!!
+function locationObj(lat, lon){
 	this.lat = lat;
 	this.lon = lon;
-	this.particles = {
+	this.averages = {
 		"pm25" : undefined,
     	"pm10" : undefined,
     	"so2" : undefined,
@@ -353,15 +365,6 @@ function averageData(lat, lon){
     	"o3" : undefined,
     	"co" : undefined,
     	"bc" : undefined
-	}
-	this.particleCounts = {
-		"pm25" : 0,
-    	"pm10" : 0,
-    	"so2" : 0,
-    	"no2" : 0,
-    	"o3" : 0,
-    	"co" : 0,
-    	"bc" : 0
 	}
 }
 
@@ -380,7 +383,7 @@ function retrieveParticleData2(){
     	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
             	app.measurements2 = [];
