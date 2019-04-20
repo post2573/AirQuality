@@ -6,8 +6,8 @@ function init(){
 	  el: '#app',
 	  data: { 
 	  		map1: {
-	  			latitude: 51.509865,
-	  			longitude: -0.118092,
+	  			latitude: 51.509,
+	  			longitude: -0.118,
 	  			city: "London"
 	   		},
 	   		map2: {
@@ -17,6 +17,7 @@ function init(){
 	   		},
 	   		airDataResults: [],
 	   		measurements: [],
+	   		measurements2: [],
 	   		particleType: "",
 	   		particleTypeOptions: [
                 { value: "pm25", text: "PM2.5" },
@@ -42,12 +43,12 @@ function init(){
 	//create the maps
 	map1 = createMap('map1', app.map1.latitude, app.map1.longitude);
 	map2 = createMap('map2', app.map2.latitude, app.map2.longitude);
-	//var airData = retrieveParticleData();
-	//var airData2 = retrieveParticleData2();
+	retrieveParticleData();
+	retrieveParticleData2();
 
 	//add event listeners
-	$("#map1B").click(updateLatLong($('#lat1')[0].value, $('#long1')[0].value));
-	$("#map2B").click(updateLatLong2($('#lat2')[0].value, $('#long2')[0].value));
+	$("#map1B").click(updateLatLong);
+	$("#map2B").click(updateLatLong2);
 	$("#citySearch").click(cityLookUp);
 	$("#city2Search").click(cityLookUp2);
 	$("#map1Full").click(fullScreen);
@@ -107,11 +108,34 @@ function cityLookUp(){
 	            	var lon = data[0].lon;
 	            	//$('#lat1')[0].value = lat;
 	            	//$('#long1')[0].value = lon;
-	            	updateLatLong(lat, lon);
+	            	updateLatLongwPar(lat, lon);
 	            }
 	        };
 	        $.ajax(request);
 }
+
+function updateLatLongwPar(lat, lng){
+	app.map1.latitude = lat;
+
+	app.map1.longitude = lng;
+	//console.log(app.map1.latitude);
+	map1.setView([lat, lng], 13);
+	//console.log(app.map1.latitude);
+	//app.map1.latitude = $("#lat1").value;
+	retrieveParticleData();
+}
+
+function updateLatLong2wPar(lat, lng){
+	app.map2.latitude = lat;
+
+	app.map2.longitude = lng;
+	//console.log(app.map1.latitude);
+	map2.setView([lat, lng], 13);
+	//console.log(app.map1.latitude);
+	//app.map1.latitude = $("#lat1").value;
+	retrieveParticleData();
+}
+
 function cityLookUp2(){
 	//grab user input
 	//look that city up in nominatim
@@ -131,7 +155,7 @@ function cityLookUp2(){
 	            	var lon = data[0].lon;
 	            	//$('#lat1')[0].value = lat;
 	            	//$('#long1')[0].value = lon;
-	            	updateLatLong2(lat, lon);
+	            	updateLatLong2wPar(lat, lon);
 	            }
 	        };
 	        $.ajax(request);
@@ -201,12 +225,12 @@ function updateCity2OnPan(lat, lng){
         $.ajax(request);
 }
 
-function updateLatLong(lat, lng){
+function updateLatLong(){
 	//L.latLng($("#lat1").value, $("#long1").value)
 	//console.log($("#lat1").target.value); 
-	//lat = $('#lat1')[0].value;
+	lat = $('#lat1')[0].value;
 	app.map1.latitude = lat;
-	//lng = $('#long1')[0].value;
+	lng = $('#long1')[0].value;
 	app.map1.longitude = lng;
 	//console.log(app.map1.latitude);
 	map1.setView([lat, lng], 13);
@@ -215,12 +239,12 @@ function updateLatLong(lat, lng){
 	retrieveParticleData();
 }
 
-function updateLatLong2(lat,lng){
+function updateLatLong2(){
 	//L.latLng($("#lat1").value, $("#long1").value)
 	//console.log($("#lat1").target.value); 
-	//lat = $('#lat2')[0].value;
+	lat = $('#lat2')[0].value;
 	app.map2.latitude = lat;
-	//lng = $('#long2')[0].value;
+	lng = $('#long2')[0].value;
 	app.map2.longitude = lng;
 	//console.log(app.map1.latitude);
 	map2.setView([lat, lng], 13);
@@ -237,35 +261,46 @@ function retrieveParticleData(){
 	var nwCorner = map1.getBounds().getNorthWest();
 	var seCorner = map1.getBounds().getSouthEast();
 	var rad = Math.round(CalculateDistance(nwCorner.lat,nwCorner.lng,seCorner.lat,seCorner.lng) / 2); 
-	console.log(rad);
+	//console.log(rad);
 	if (app.map1.latitude !== "" && app.map1.longitude !== "")
     {
+    	console.log(lat);
+    	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-18&date_to=2019-04-17&limit=100",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=1000",
             dataType: "json",
             success: function(data){
-            	console.log(data);
-	
-				app.airDataResults = data;
-				//console.log(data.coordinates);
-				for (var m in data.results){
-					var cur = data.results[m];
-					var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map1);
-				}
-				/*for (var i in data.results){
+            	app.measurements = [];
+            	console.log(data.results);
+				for(var i in data.results){
+					var found = undefined;
 					var cur = data.results[i];
 					var curLat = cur.coordinates.latitude;
 					var curLon = cur.coordinates.longitude;
-					if(app.measurements.includes([curLat.value, curLon.value])){
-						console.log("Already in measurements");
+					var curDate = cur.date.utc;
+					var curParticle = cur.parameter;
+					var curValue = cur.value;
+					//console.log(curValue);
+					for(var m in app.measurements){
+						var curMeas = app.measurements[m];
+						if((curLat === curMeas.lat) && (curLon === curMeas.lon) && (curDate === curMeas.date)){
+							found = m;
+							break;
+						}
+					}
+					if(found == undefined){
+						var x = new PData(curLat, curLon, curDate);
+						//console.log(x.particles[curParticle]);
+						x.particles[curParticle] = curValue;
+						app.measurements.push(x);
 					}
 					else{
-						app.measurements.push([cur.coordinates.latitude, cur.coordinates.longitude]);
-						var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map1);
+						app.measurements[found].particles[curParticle] = curValue;
 					}
-					console.log(app.measurements);
-				}*/
+				}
+				console.log(app.measurements);
+				placeMarkers();
             }
         };
         $.ajax(request);
@@ -278,31 +313,81 @@ function retrieveParticleData(){
     
 }
 
+function placeMarkers(){
+	for(var i in app.measurements){
+		var marker = L.marker([app.measurements[i].lat, app.measurements[i].lon]).addTo(map1);
+	}
+}
+
+function placeMarkers2(){
+	for(var i in app.measurements2){
+		var marker = L.marker([app.measurements2[i].lat, app.measurements2[i].lon]).addTo(map2);
+	}
+}
+
+function PData(lat, lon, date){
+	this.lat = lat;
+	this.lon = lon;
+	this.date = date;
+	this.particles = {
+		"pm25" : undefined,
+    	"pm10" : undefined,
+    	"so2" : undefined,
+    	"no2" : undefined,
+    	"o3" : undefined,
+    	"co" : undefined,
+    	"bc" : undefined
+	}
+}
+
 function retrieveParticleData2(){
-	
+	console.log("Made it in Here!!!")
 	var lat = app.map2.latitude;
 	var lng = app.map2.longitude;
 
 	var nwCorner = map2.getBounds().getNorthWest();
 	var seCorner = map2.getBounds().getSouthEast();
 	var rad = Math.round(CalculateDistance(nwCorner.lat,nwCorner.lng,seCorner.lat,seCorner.lng) / 2); 
-	console.log(rad);
+	//console.log(rad);
 	if (app.map2.latitude !== "" && app.map2.longitude !== "")
     {
+    	console.log(lat);
+    	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-20&date_to=2019-04-18&limit=100",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=1000",
             dataType: "json",
             success: function(data){
-            	console.log(data);
-	
-				app.airDataResults = data;
-				//console.log(data.coordinates);
-				for (var m in data.results){
-					var cur = data.results[m];
-					var marker = L.marker([cur.coordinates.latitude, cur.coordinates.longitude]).addTo(map2);
+            	app.measurements2 = [];
+            	console.log(data.results);
+				for(var i in data.results){
+					var found = undefined;
+					var cur = data.results[i];
+					var curLat = cur.coordinates.latitude;
+					var curLon = cur.coordinates.longitude;
+					var curDate = cur.date.utc;
+					var curParticle = cur.parameter;
+					var curValue = cur.value;
+					//console.log(curValue);
+					for(var m in app.measurements2){
+						var curMeas = app.measurements2[m];
+						if((curLat === curMeas.lat) && (curLon === curMeas.lon) && (curDate === curMeas.date)){
+							found = m;
+							break;
+						}
+					}
+					if(found == undefined){
+						var x = new PData(curLat, curLon, curDate);
+						//console.log(x.particles[curParticle]);
+						x.particles[curParticle] = curValue;
+						app.measurements2.push(x);
+					}
+					else{
+						app.measurements2[found].particles[curParticle] = curValue;
+					}
 				}
-
+				console.log(app.measurements2);
+				placeMarkers2();
             }
         };
         $.ajax(request);
@@ -328,10 +413,3 @@ function CalculateDistance(lat1, lon1, lat2, lon2) {
     return dist*1000;
 }
 
-function addMarkersToMap(data){
-	console.log(data.coordinates);
-	for(m in data){
-		console.log(m);
-		var marker = L.marker([data.coordinates.latitude, data.coordinates.longitude]).addTo(map1);
-	}
-}
