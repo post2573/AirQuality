@@ -18,6 +18,8 @@ function init(){
 	   		airDataResults: [],
 	   		measurements: [],
 	   		measurements2: [],
+	   		averages: [],
+	   		averages2:[],
 	   		particleType: "",
 	   		particleTypeOptions: [
                 { value: "pm25", text: "PM2.5" },
@@ -337,6 +339,29 @@ function PData(lat, lon, date){
     	"o3" : undefined,
     	"co" : undefined,
     	"bc" : undefined
+	}
+}
+
+function averageData(lat, lon){
+	this.lat = lat;
+	this.lon = lon;
+	this.particles = {
+		"pm25" : undefined,
+    	"pm10" : undefined,
+    	"so2" : undefined,
+    	"no2" : undefined,
+    	"o3" : undefined,
+    	"co" : undefined,
+    	"bc" : undefined
+	}
+	this.particleCounts = {
+		"pm25" : 0,
+    	"pm10" : 0,
+    	"so2" : 0,
+    	"no2" : 0,
+    	"o3" : 0,
+    	"co" : 0,
+    	"bc" : 0
 	}
 }
 
