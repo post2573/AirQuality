@@ -17,6 +17,7 @@ function init(){
 	   		},
 	   		airDataResults: [],
 	   		locations1: [],
+	   		locations2: [],
 	   		particleType: "",
 	   		particleTypeOptions: [
                 { value: "pm25", text: "PM2.5" },
@@ -314,6 +315,7 @@ function retrieveParticleData(){
 				console.log(app.measurements);
 				console.log(app.locations1);
 				placeMarkers();
+				findAverages();
             }
         };
         $.ajax(request);
@@ -324,48 +326,6 @@ function retrieveParticleData(){
         app.airDataResults = [];
     }
     
-}
-
-function placeMarkers(){
-	for(var i in app.measurements){
-		var marker = L.marker([app.measurements[i].lat, app.measurements[i].lon]).addTo(map1);
-	}
-}
-
-function placeMarkers2(){
-	for(var i in app.measurements2){
-		var marker = L.marker([app.measurements2[i].lat, app.measurements2[i].lon]).addTo(map2);
-	}
-}
-
-function PData(lat, lon, date){
-	this.lat = lat;
-	this.lon = lon;
-	this.date = date;
-	this.particles = {
-		"pm25" : undefined,
-    	"pm10" : undefined,
-    	"so2" : undefined,
-    	"no2" : undefined,
-    	"o3" : undefined,
-    	"co" : undefined,
-    	"bc" : undefined
-	}
-}
-
-//HERE IS THE LOCATION OBJECT!!
-function locationObj(lat, lon){
-	this.lat = lat;
-	this.lon = lon;
-	this.averages = {
-		"pm25" : undefined,
-    	"pm10" : undefined,
-    	"so2" : undefined,
-    	"no2" : undefined,
-    	"o3" : undefined,
-    	"co" : undefined,
-    	"bc" : undefined
-	}
 }
 
 function retrieveParticleData2(){
@@ -390,6 +350,7 @@ function retrieveParticleData2(){
             	console.log(data.results);
 				for(var i in data.results){
 					var found = undefined;
+					var foundLoc = undefined;
 					var cur = data.results[i];
 					var curLat = cur.coordinates.latitude;
 					var curLon = cur.coordinates.longitude;
@@ -404,6 +365,13 @@ function retrieveParticleData2(){
 							break;
 						}
 					}
+					for(var a in app.locations2){
+						var curLoc = app.locations2[a];
+						if((curLat === curLoc.lat) && (curLon === curLoc.lon)){
+							foundLoc = a;
+							break;
+						}
+					}
 					if(found == undefined){
 						var x = new PData(curLat, curLon, curDate);
 						//console.log(x.particles[curParticle]);
@@ -413,9 +381,14 @@ function retrieveParticleData2(){
 					else{
 						app.measurements2[found].particles[curParticle] = curValue;
 					}
+					if(foundLoc == undefined){
+						var y = new locationObj(curLat, curLon);
+						app.locations2.push(y);
+					}
 				}
 				console.log(app.measurements2);
 				placeMarkers2();
+				findAverages2();
             }
         };
         $.ajax(request);
@@ -426,6 +399,147 @@ function retrieveParticleData2(){
         app.airDataResults = [];
     }
     
+}
+
+function placeMarkers(){
+	for(var a in app.locations1){
+		var marker = L.marker([app.locations1[a].lat, app.locations1[a].lon]).addTo(map1);
+		var averages = app.locations1[a].averages;
+		var popupContent = averages[0];
+		console.log(popupContent);
+		/*for (var b in averages){
+			if(averages[b] != undefined){
+				console.log("IM IN");
+				popupContent = popupContent + average + "/n";
+				console.log(average);
+			}
+			console.log(popupContent);
+		}*/
+		var popup = marker.bindPopup(popupContent).openPopup();
+	}
+}
+
+function placeMarkers2(){
+	for(var a in app.locations2){
+		var marker = L.marker([app.locations2[a].lat, app.locations2[a].lon]).addTo(map2);
+	}
+}
+
+function findAverages(){
+	for (var b in app.locations1){
+		var curLat = app.locations1[b].lat;
+		var curLon = app.locations1[b].lon;
+		var curMeas = app.locations1[b].measurements;
+		for (var c in app.measurements){
+			var curLat2 = app.measurements[c].lat;
+			var curLon2 = app.measurements[c].lon;
+			var curParticles = app.measurements[c].particles;
+			if ((curLat === curLat2) && (curLon === curLon2)){
+				for (var d in curMeas){
+					if (curParticles[d] != undefined){
+						var curValue = curParticles[d];
+						curMeas[d].push(curValue);
+					}
+				}
+			}
+		}
+	}
+	for (var b in app.locations1){
+		var curLat = app.locations1[b].lat;
+		var curLon = app.locations1[b].lon;
+		var curMeas = app.locations1[b].measurements;
+		var curAve = app.locations1[b].averages;
+		for(var c in curAve){
+			var curPart = curMeas[c];
+			if(curPart.length != 0){
+				var ave = 0;
+				for (var d in curPart){
+					var curVal = curPart[d];
+					ave = ave + curVal;
+				}
+				curAve[c] = ave/curPart.length;
+			}
+		}
+	}
+	console.log(app.locations1);
+}
+
+function findAverages2(){
+	for (var b in app.locations2){
+		var curLat = app.locations2[b].lat;
+		var curLon = app.locations2[b].lon;
+		var curMeas = app.locations2[b].measurements;
+		for (var c in app.measurements2){
+			var curLat2 = app.measurements2[c].lat;
+			var curLon2 = app.measurements2[c].lon;
+			var curParticles = app.measurements2[c].particles;
+			if ((curLat === curLat2) && (curLon === curLon2)){
+				for (var d in curMeas){
+					if (curParticles[d] != undefined){
+						var curValue = curParticles[d];
+						curMeas[d].push(curValue);
+					}
+				}
+			}
+		}
+	}
+	for (var b in app.locations2){
+		var curLat = app.locations2[b].lat;
+		var curLon = app.locations2[b].lon;
+		var curMeas = app.locations2[b].measurements;
+		var curAve = app.locations2[b].averages;
+		for(var c in curAve){
+			var curPart = curMeas[c];
+			if(curPart.length != 0){
+				var ave = 0;
+				for (var d in curPart){
+					var curVal = curPart[d];
+					ave = ave + curVal;
+				}
+				curAve[c] = ave/curPart.length;
+			}
+		}
+	}
+	console.log(app.locations2);
+
+}
+
+function PData(lat, lon, date){
+	this.lat = lat;
+	this.lon = lon;
+	this.date = date;
+	this.particles = {
+		"pm25" : undefined,
+    	"pm10" : undefined,
+    	"so2" : undefined,
+    	"no2" : undefined,
+    	"o3" : undefined,
+    	"co" : undefined,
+    	"bc" : undefined
+	}
+}
+
+function locationObj(lat, lon){
+	this.lat = lat;
+	this.lon = lon;
+	this.measurements = {
+		"pm25" : [],
+    	"pm10" : [],
+    	"so2" : [],
+    	"no2" : [],
+    	"o3" : [],
+    	"co" : [],
+    	"bc" : []
+	}
+	this.averages = {
+		"pm25" : undefined,
+    	"pm10" : undefined,
+    	"so2" : undefined,
+    	"no2" : undefined,
+    	"o3" : undefined,
+    	"co" : undefined,
+    	"bc" : undefined
+	}
 }
 
 function CalculateDistance(lat1, lon1, lat2, lon2) {
