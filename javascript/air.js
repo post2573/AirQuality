@@ -162,23 +162,29 @@ function cityLookUp2(){
 }
 
 function onMap1Pan(e){
-	var center = map1.getCenter();
-	rlat = Math.round(center.lat * 1000) / 1000;
-	rlng = Math.round(center.lng * 1000) / 1000;
-	app.map1.latitude = rlat;
-	app.map1.longitude = rlng;
-	retrieveParticleData();
-	updateCityOnPan(rlat,rlng);
+	setTimeout(function() {
+		var center = map1.getCenter();
+		rlat = Math.round(center.lat * 1000) / 1000;
+		rlng = Math.round(center.lng * 1000) / 1000;
+		app.map1.latitude = rlat;
+		app.map1.longitude = rlng;
+		retrieveParticleData();
+		updateCityOnPan(rlat,rlng);
+
+	}, 2000);
+	
 }
 
 function onMap2Pan(e){
-	var center = map2.getCenter();
-	rlat = Math.round(center.lat * 1000) / 1000;
-	rlng = Math.round(center.lng * 1000) / 1000;
-	app.map2.latitude = rlat;
-	app.map2.longitude = rlng;
-	retrieveParticleData2();
-	updateCity2OnPan(rlat, rlng);
+	setTimeout(function() {
+		var center = map2.getCenter();
+		rlat = Math.round(center.lat * 1000) / 1000;
+		rlng = Math.round(center.lng * 1000) / 1000;
+		app.map2.latitude = rlat;
+		app.map2.longitude = rlng;
+		retrieveParticleData2();
+		updateCity2OnPan(rlat, rlng);
+	}, 2000);
 }
 
 function updateCityOnPan(lat, lng){
@@ -191,11 +197,13 @@ function updateCityOnPan(lat, lng){
             	if(data.address.city != undefined){
             		app.map1.city = data.address.city;
             	}
+            	/*
             	else{
             	
             		//console.log(data.address.county);
         			app.map1.city = data.address.county;
             	}
+            	*/
             	//console.log(app.map1.city);
             	console.log(data);
             }
@@ -314,7 +322,7 @@ function retrieveParticleData(){
 				}
 				console.log(app.measurements);
 				console.log(app.locations1);
-				placeMarkers();
+				//placeMarkers();
 				findAverages();
             }
         };
@@ -401,23 +409,26 @@ function retrieveParticleData2(){
     
 }
 
+
 function placeMarkers(){
 	for(var a in app.locations1){
 		var marker = L.marker([app.locations1[a].lat, app.locations1[a].lon]).addTo(map1);
 		var averages = app.locations1[a].averages;
 		var popupContent = averages[0];
 		console.log(popupContent);
-		/*for (var b in averages){
+		for (var b in averages){
 			if(averages[b] != undefined){
 				console.log("IM IN");
 				popupContent = popupContent + average + "/n";
 				console.log(average);
 			}
 			console.log(popupContent);
-		}*/
+		}
 		var popup = marker.bindPopup(popupContent).openPopup();
 	}
 }
+
+
 
 function placeMarkers2(){
 	for(var a in app.locations2){
