@@ -90,10 +90,12 @@ table th {
 }
 
 #table1{
+	float: left;
 	display:inline-block;
 	margin-left: 1rem;
 }
 #table2{
+	float: right;
 	display:inline-block;
 	margin-left: 1rem;
 }

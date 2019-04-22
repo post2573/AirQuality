@@ -79,7 +79,7 @@
 			 </div>
 
 			 
-			<!-- <div id = "tables">
+			<div id = "tables">
 			 	<table id = "table1">
 			 		<thead>
 			 			<th>Location</th>
@@ -87,14 +87,15 @@
 			 			<th>Particle Value</th>
 			 		</thead>
 			 		<tbody>
-			 			<td>
-			 				<option v-for = "item in airDataResults" :value = "option.value">{{item.text}}</option>
+			 			<td v-model = "measurements">
+			 				<option v-for= "location in measurements">({{location.lat}}, {{location.lon}})</option>
+			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">{{particles.particles}}</option>
+			 				<!--<option v-for = "(particles,index) in measurements.particles">{{index}}</option>-->
 			 			</td>
 			 			<td>
-			 				<option v-for = "option in particleTypeOptions" :value = "option.value">{{option.text}}</option>
-			 			</td>
-			 			<td>
-			 				<option v-for = "option in particleValue" :value = "option.value">{{option.text}}</option>
+			 				<option v-for = ></option>
 			 			</td>
 			 	</table>
 			 	<table id = "table2">
@@ -104,18 +105,18 @@
 			 			<th>Particle Value</th>
 			 		</thead>
 			 		<tbody>
-			 			<td>
-			 				<option v-for = "item in airDataResults" :value = "option.value">{{item.text}}</option>
+			 			<td v-model = "measurements2">
+			 				<option v-for= "location in measurements2">({{location.lat}}, {{location.lon}})</option>
 			 			</td>
 			 			<td>
-			 				<option v-for = "option in particleTypeOptions" :value = "option.value">{{option.text}}</option>
+			 				<option v-for = "particles in measurements2">{{particles.particles}}</option>
 			 			</td>
 			 			<td>
-			 				<option v-for = "option in particleValue" :value = "option.value">{{option.text}}</option>
+			 				<option v-for = ></option>
 			 			</td>
 			 	</table>
 			 </div>
-			 -->
+			 
 		</div>
 		  	<script>var init = init()</script>
 

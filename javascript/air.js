@@ -16,6 +16,8 @@ function init(){
 	  			city: "St. Paul"
 	   		},
 	   		airDataResults: [],
+	   		measurements: [],
+	   		measurements2: [],
 	   		locations1: [],
 	   		locations2: [],
 	   		particleType: "",
@@ -279,7 +281,7 @@ function retrieveParticleData(){
             url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
-            	app.measurements = [];
+            	//app.measurements[];
             	console.log(data.results);
 				for(var i in data.results){
 					var found = undefined;
@@ -322,7 +324,7 @@ function retrieveParticleData(){
 				}
 				console.log(app.measurements);
 				console.log(app.locations1);
-				//placeMarkers();
+				placeMarkers();
 				findAverages();
             }
         };
@@ -354,7 +356,7 @@ function retrieveParticleData2(){
             url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
-            	app.measurements2 = [];
+            	//app.measurements2 = [];
             	console.log(data.results);
 				for(var i in data.results){
 					var found = undefined;
@@ -413,22 +415,18 @@ function retrieveParticleData2(){
 function placeMarkers(){
 	for(var a in app.locations1){
 		var marker = L.marker([app.locations1[a].lat, app.locations1[a].lon]).addTo(map1);
-		var averages = app.locations1[a].averages;
-		var popupContent = averages[0];
+		/*var averages = app.locations1[a].averages;
+		var popupContent = '';
 		console.log(popupContent);
-		for (var b in averages){
-			if(averages[b] != undefined){
-				console.log("IM IN");
-				popupContent = popupContent + average + "/n";
-				console.log(average);
-			}
-			console.log(popupContent);
+		if(averages != undefined){
+			console.log("IM IN");
+			popupContent = popupContent + averages;
 		}
-		var popup = marker.bindPopup(popupContent).openPopup();
+		console.log(popupContent);*/
 	}
+	//var popup = L.popup().setContent(popupContent);
+	//marker.bindPopup().openPopup();
 }
-
-
 
 function placeMarkers2(){
 	for(var a in app.locations2){
