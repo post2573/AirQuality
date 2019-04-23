@@ -281,7 +281,8 @@ function retrieveParticleData(){
             url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
-            	//app.measurements[];
+            	app.measurements = [];
+            	app.locations1 = [];
             	console.log(data.results);
 				for(var i in data.results){
 					var found = undefined;
@@ -356,7 +357,8 @@ function retrieveParticleData2(){
             url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
-            	//app.measurements2 = [];
+            	app.measurements2 = [];
+            	app.locations2 = [];
             	console.log(data.results);
 				for(var i in data.results){
 					var found = undefined;
@@ -435,6 +437,7 @@ function placeMarkers2(){
 }
 
 function findAverages(){
+	console.log("AVERAGES FOR MAP1")
 	for (var b in app.locations1){
 		var curLat = app.locations1[b].lat;
 		var curLon = app.locations1[b].lon;

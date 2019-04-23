@@ -83,37 +83,120 @@
 			 	<table id = "table1">
 			 		<thead>
 			 			<th>Location</th>
-			 			<th>Particle Type</th>
-			 			<th>Particle Value</th>
+			 			<th>Date/Time</th>
+			 			<th v-for = "particle in particleTypeOptions">
+			 				{{particle.text}}
+			 			</th>
 			 		</thead>
 			 		<tbody>
 			 			<td v-model = "measurements">
 			 				<option v-for= "location in measurements">({{location.lat}}, {{location.lon}})</option>
 			 			</td>
 			 			<td v-model = "measurements">
-			 				<option v-for = "particles in measurements">{{particles.particles}}</option>
-			 				<!--<option v-for = "(particles,index) in measurements.particles">{{index}}</option>-->
+			 				<option v-for= "date in measurements">{{date.date}}</option>
 			 			</td>
-			 			<td>
-			 				<option v-for = ></option>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.pm25 === undefined">-</template>
+			 					<template v-else>{{particles.particles.pm25}}</template>
+			 				</option>
 			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.pm10 === undefined">-</template>
+			 					<template v-else>{{particles.particles.pm10}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.so2 === undefined">-</template>
+			 					<template v-else>{{particles.particles.so2}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.no2 === undefined">-</template>
+			 					<template v-else>{{particles.particles.no2}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.o3 === undefined">-</template>
+			 					<template v-else>{{particles.particles.o3}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.co === undefined">-</template>
+			 					<template v-else>{{particles.particles.co}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements">
+			 				<option v-for = "particles in measurements">
+			 					<template v-if="particles.particles.bc === undefined">-</template>
+			 					<template v-else>{{particles.particles.bc}}</template>
+			 				</option>
+			 			</td>
+			 		</tbody>
 			 	</table>
 			 	<table id = "table2">
 			 		<thead>
 			 			<th>Location</th>
-			 			<th>Particle Type</th>
-			 			<th>Particle Value</th>
+			 			<th>Date/Time</th>
+			 			<th v-for = "particle in particleTypeOptions">
+			 				{{particle.text}}
+			 			</th>
 			 		</thead>
 			 		<tbody>
 			 			<td v-model = "measurements2">
 			 				<option v-for= "location in measurements2">({{location.lat}}, {{location.lon}})</option>
 			 			</td>
-			 			<td>
-			 				<option v-for = "particles in measurements2">{{particles.particles}}</option>
+			 			<td v-model = "measurements2">
+			 				<option v-for= "date in measurements2">{{date.date}}</option>
 			 			</td>
-			 			<td>
-			 				<option v-for = ></option>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.pm25 === undefined">-</template>
+			 					<template v-else>{{particles.particles.pm25}}</template>
+			 				</option>
 			 			</td>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.pm10 === undefined">-</template>
+			 					<template v-else>{{particles.particles.pm10}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.so2 === undefined">-</template>
+			 					<template v-else>{{particles.particles.so2}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.no2 === undefined">-</template>
+			 					<template v-else>{{particles.particles.no2}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.o3 === undefined">-</template>
+			 					<template v-else>{{particles.particles.o3}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.co === undefined">-</template>
+			 					<template v-else>{{particles.particles.co}}</template>
+			 				</option>
+			 			</td>
+			 			<td v-model = "measurements2">
+			 				<option v-for = "particles in measurements2">
+			 					<template v-if="particles.particles.bc === undefined">-</template>
+			 					<template v-else>{{particles.particles.bc}}</template>
+			 				</option>
+			 			</td>
+			 		</tbody>
 			 	</table>
 			 </div>
 			 
