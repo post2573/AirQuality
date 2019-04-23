@@ -56,6 +56,7 @@ function init(){
 	$("#city2Search").click(cityLookUp2);
 	$("#map1Full").click(fullScreen);
 	$("#map2Full").click(fullScreen2);
+	$("#map1Heat").click(getHeatOverlay);
 	map1.on('moveend', onMap1Pan);
 	map2.on('moveend', onMap2Pan);
 }
@@ -525,6 +526,15 @@ function findAverages2(){
 	}
 	console.log(app.locations2);
 
+}
+
+function getHeatOverlay(){
+	for(var a in app.locations1){
+		var curLoc = app.locations1[a];
+		var heat = L.heatLayer([
+		[curLoc.lat, curLoc.lon, 0.2], // lat, lng, intensity
+		], {radius: 25}).addTo(map1);
+	}
 }
 
 function PData(lat, lon, date){
