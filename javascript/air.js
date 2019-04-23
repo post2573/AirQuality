@@ -37,9 +37,10 @@ function init(){
                 { value: "<", text: "<" },
                 { value: ">=", text: ">=" },
                 { value: "<=", text: "<=" }
-            ]
-	   },
-	  methods: { /* Any app-specific functions go here */ },
+            ],
+            good: 'rgb(0, 228, 0)'
+            
+	   }
 	});
 
 	//create the maps

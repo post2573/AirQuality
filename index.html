@@ -105,6 +105,10 @@
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.pm10 === undefined">-</template>
+			 					<template v-else-if="particles.particles.pm10 < 65">
+			 							
+			 							<div style="color: rgb(0,228,0);">{{particles.particles.pm10}}</div>
+			 					</template>
 			 					<template v-else>{{particles.particles.pm10}}</template>
 			 				</option>
 			 			</td>
