@@ -278,7 +278,7 @@ function retrieveParticleData(){
     	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
             	app.measurements = [];
@@ -325,10 +325,12 @@ function retrieveParticleData(){
 				}
 				console.log(app.measurements);
 				console.log(app.locations1);
-				placeMarkers();
 				findAverages();
+				placeMarkers();
             }
+
         };
+
         $.ajax(request);
     }
     else
@@ -354,7 +356,7 @@ function retrieveParticleData2(){
     	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=10000",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
             dataType: "json",
             success: function(data){
             	app.measurements2 = [];
@@ -399,8 +401,8 @@ function retrieveParticleData2(){
 					}
 				}
 				console.log(app.measurements2);
-				placeMarkers2();
 				findAverages2();
+				placeMarkers2();	
             }
         };
         $.ajax(request);
@@ -417,22 +419,28 @@ function retrieveParticleData2(){
 function placeMarkers(){
 	for(var a in app.locations1){
 		var marker = L.marker([app.locations1[a].lat, app.locations1[a].lon]).addTo(map1);
-		/*var averages = app.locations1[a].averages;
-		var popupContent = '';
-		console.log(popupContent);
-		if(averages != undefined){
-			console.log("IM IN");
-			popupContent = popupContent + averages;
+		var averages = app.locations1[a].averages;
+		var content = "<b>Lat: </b>" + app.locations1[a].lat + "<b> Lon: </b>" + app.locations1[a].lon + "</br>";
+		for(var b in averages){
+			if(averages[b] !== undefined){
+				content = content + b + ": " + averages[b] + "</br>";
+			}
 		}
-		console.log(popupContent);*/
+		marker.bindPopup(content);
 	}
-	//var popup = L.popup().setContent(popupContent);
-	//marker.bindPopup().openPopup();
 }
 
 function placeMarkers2(){
 	for(var a in app.locations2){
 		var marker = L.marker([app.locations2[a].lat, app.locations2[a].lon]).addTo(map2);
+		var averages = app.locations2[a].averages;
+		var content = "<b>Lat: </b>" + app.locations2[a].lat + "<b> Lon: </b>" + app.locations2[a].lon + "</br>";
+		for(var b in averages){
+			if(averages[b] !== undefined){
+				content = content + b + ": " + averages[b] + "</br>";
+			}
+		}
+		marker.bindPopup(content);
 	}
 }
 
@@ -470,6 +478,7 @@ function findAverages(){
 					ave = ave + curVal;
 				}
 				curAve[c] = ave/curPart.length;
+				curAve[c] = Math.round(curAve[c] * 1000) / 1000;
 			}
 		}
 	}
@@ -509,6 +518,7 @@ function findAverages2(){
 					ave = ave + curVal;
 				}
 				curAve[c] = ave/curPart.length;
+				curAve[c] = Math.round(curAve[c] * 1000) / 1000;
 			}
 		}
 	}

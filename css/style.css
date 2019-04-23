@@ -27,7 +27,7 @@ table{
 }
 table td, table th {
   border: 1px solid #0b3e49;
-  padding: 5px 4px;
+  padding: 4px 4px;
 }
 table td {
   font-size: 13px;
@@ -91,12 +91,19 @@ table th {
 #table1{
 	float: left;
 	display:inline-block;
-	margin-left: 1rem;
+	margin-left: 0.3rem;
+
 }
 #table2{
 	float: right;
 	display:inline-block;
-	margin-left: 1rem;
+	/*margin-left: 0.3rem;*/
+}
+
+#tables{
+	white-space: nowrap;
+	overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .ui {
