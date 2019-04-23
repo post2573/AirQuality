@@ -54,6 +54,10 @@ table th {
     overflow-y: hidden;
 }
 
+.good{
+	background-color: rgb(0,228,0);
+}
+
 #map1 {
 
 	width: 600px; 
