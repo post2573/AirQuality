@@ -199,13 +199,13 @@ function updateCityOnPan(lat, lng){
             	if(data.address.city != undefined){
             		app.map1.city = data.address.city;
             	}
-            	/*
+            	
             	else{
             	
             		//console.log(data.address.county);
         			app.map1.city = data.address.county;
             	}
-            	*/
+            	
             	//console.log(app.map1.city);
             	console.log(data);
             }
@@ -278,7 +278,7 @@ function retrieveParticleData(){
     	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=10000",
             dataType: "json",
             success: function(data){
             	app.measurements = [];
@@ -354,7 +354,7 @@ function retrieveParticleData2(){
     	console.log(lng);
         var request = {
         	type: "GET",
-            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=100",
+            url: "https://api.openaq.org/v1/measurements?" + "coordinates=" + lat + "," + lng + "&radius="+ rad + "&date_from=2019-03-19&date_to=2019-04-19&limit=10000",
             dataType: "json",
             success: function(data){
             	app.measurements2 = [];
