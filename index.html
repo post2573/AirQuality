@@ -99,15 +99,16 @@
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.pm25 === undefined">-</template>
-			 					<template v-else>{{particles.particles.pm25}}</template>
+			 					<template v-else>
+			 						<p style="background-color: rgb(0,228,0);">{{particles.particles.pm25}}</p>
+			 					</template>
 			 				</option>
 			 			</td>
 			 			<td v-model = "measurements">
-			 				<option v-for = "particles in measurements">
+			 				<option v-for = "particles in measurements" >
 			 					<template v-if="particles.particles.pm10 === undefined">-</template>
-			 					<template v-else-if="particles.particles.pm10 < 65">
-			 							
-			 							<div style="color: rgb(0,228,0);">{{particles.particles.pm10}}</div>
+			 					<template v-if="particles.particles.pm10 < 65" :style="{ backgroundColor: good }">
+			 							{{particles.particles.pm10}}
 			 					</template>
 			 					<template v-else>{{particles.particles.pm10}}</template>
 			 				</option>
@@ -115,7 +116,9 @@
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.so2 === undefined">-</template>
-			 					<template v-else>{{particles.particles.so2}}</template>
+			 					<template v-else>
+			 					{{particles.particles.so2}}
+			 					</template>
 			 				</option>
 			 			</td>
 			 			<td v-model = "measurements">
