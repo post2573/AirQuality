@@ -40,9 +40,22 @@ function init(){
             ],
             goodClass: {
             	'background-color': 'rgb(0, 228, 0)'
+            },
+            moderateClass: {
+            	'background-color': 'rgb(225,225,0)'
+            },
+            unhealthy1Class: {
+            	'background-color': 'rgb(225,126,0)'
+            },
+            unhealthy2Class: {
+            	'background-color': 'rgb(225,0,0)'
+            },
+            unhealthy3Class: {
+            	'background-color': 'rgb(143,63,151)'
+            },
+            hazardousClass: {
+            	'background-color': 'rgb(126,0,35)'
             }
-            
-            
 	   }
 	});
 
@@ -539,11 +552,13 @@ function getHeatOverlay(){
 		//var heat = L.redraw();
 		for(var a in app.locations1){
 			var curLoc = app.locations1[a];
-			var curpart = (curLoc.averages[part])/100;
-			console.log(curpart);
-			var heat = L.heatLayer([
-			[curLoc.lat, curLoc.lon, (curpart)], // lat, lng, intensity
-			], {radius: 30}).addTo(map1);
+			if(curLoc.averages[part] != undefined){
+				var curpart = (curLoc.averages[part])/10;
+				console.log(curpart);
+				var heat = L.heatLayer([
+				[curLoc.lat, curLoc.lon, (curpart)], // lat, lng, intensity
+				], {radius: 30}).addTo(map1);
+			}
 		}
 	}
 }
@@ -555,11 +570,13 @@ function getHeatOverlay2(){
 		//var heat = L.redraw();
 		for(var a in app.locations2){
 			var curLoc = app.locations2[a];
-			var curpart = (curLoc.averages[part])/100;
-			console.log(curpart);
-			var heat = L.heatLayer([
-			[curLoc.lat, curLoc.lon, curpart], // lat, lng, intensity
-			], {radius: 30}).addTo(map2);
+			if(curLoc.averages[part] != undefined){
+				var curpart = (curLoc.averages[part])/10;
+				console.log(curpart);
+				var heat = L.heatLayer([
+				[curLoc.lat, curLoc.lon, curpart], // lat, lng, intensity
+				], {radius: 30}).addTo(map2);
+			}
 		}
 	}
 }

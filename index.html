@@ -113,15 +113,24 @@
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.pm25 === undefined">-</template>
-								<template v-else-if="particles.particles.pm10 < 45" v-bind:class = "goodClass">{{particles.particles.pm25}}</template>
+								<template v-else-if="particles.particles.pm25 <= 12" :class = "goodClass">{{particles.particles.pm25}}</template>
+								<template v-else-if="particles.particles.pm25 > 12 && particles.particles.pm25 <= 35.4" :class = "moderateClass">{{particles.particles.pm25}}</template>
+								<template v-else-if="particles.particles.pm25 > 34.4 && particles.particles.pm25 <= 55.4" :class = "unhealthy1Class">{{particles.particles.pm25}}</template>
+			 					<template v-else-if="particles.particles.pm25 > 55.4 && particles.particles.pm25 <= 150.4" :class = "unhealthy2Class">{{particles.particles.pm25}}</template>
+			 					<template v-else-if="particles.particles.pm25 > 150.4 && particles.particles.pm25 <= 250.4" :class = "unhealthy3Class">{{particles.particles.pm25}}</template>
+			 					<template v-else-if="particles.particles.pm25 > 250.4 && particles.particles.pm25 <= 500.4" :class = "hazardousClass">{{particles.particles.pm25}}</template>
 			 					<template v-else>{{particles.particles.pm25}}</template>
 			 				</option>
 			 			</td>
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.pm10 === undefined">-</template>
-			 					
-			 						
+			 					<template v-else-if="particles.particles.pm10 <=54" :class = "goodClass">{{particles.particles.pm10}}</template>
+								<template v-else-if="particles.particles.pm10 > 54 && particles.particles.pm10 <= 154" :class = "moderateClass">{{particles.particles.pm10}}</template>
+								<template v-else-if="particles.particles.pm10 > 154 && particles.particles.pm10 <= 254" :class = "unhealthy1Class">{{particles.particles.pm10}}</template>
+			 					<template v-else-if="particles.particles.pm10 > 254 && particles.particles.pm10 <= 344" :class = "unhealthy2Class">{{particles.particles.pm10}}</template>
+			 					<template v-else-if="particles.particles.pm10 > 344 && particles.particles.pm10 <= 424" :class = "unhealthy3Class">{{particles.particles.pm10}}</template>
+			 					<template v-else-if="particles.particles.pm10 > 424 && particles.particles.pm10 <= 604" :class = "hazardousClass">{{particles.particles.pm10}}</template>
 			 					<template v-else>{{particles.particles.pm10}}</template>
 			 				</option>
 			 			</td>
@@ -176,12 +185,24 @@
 			 			<td v-model = "measurements2">
 			 				<option v-for = "particles in measurements2">
 			 					<template v-if="particles.particles.pm25 === undefined">-</template>
+			 					<template v-else-if="particles.particles.pm25 <= 12" :class = "goodClass">{{particles.particles.pm25}}</template>
+								<template v-else-if="particles.particles.pm25 > 12 && particles.particles.pm25 <= 35.4" :class = "moderateClass">{{particles.particles.pm25}}</template>
+								<template v-else-if="particles.particles.pm25 > 34.4 && particles.particles.pm25 <= 55.4" :class = "unhealthy1Class">{{particles.particles.pm25}}</template>
+			 					<template v-else-if="particles.particles.pm25 > 55.4 && particles.particles.pm25 <= 150.4" :class = "unhealthy2Class">{{particles.particles.pm25}}</template>
+			 					<template v-else-if="particles.particles.pm25 > 150.4 && particles.particles.pm25 <= 250.4" :class = "unhealthy3Class">{{particles.particles.pm25}}</template>
+			 					<template v-else-if="particles.particles.pm25 > 250.4 && particles.particles.pm25 <= 500.4" :class = "hazardousClass">{{particles.particles.pm25}}</template>
 			 					<template v-else>{{particles.particles.pm25}}</template>
 			 				</option>
 			 			</td>
 			 			<td v-model = "measurements2">
 			 				<option v-for = "particles in measurements2">
 			 					<template v-if="particles.particles.pm10 === undefined">-</template>
+			 					<template v-else-if="particles.particles.pm10 <=54" :class = "goodClass">{{particles.particles.pm10}}</template>
+								<template v-else-if="particles.particles.pm10 > 54 && particles.particles.pm10 <= 154" :class = "moderateClass">{{particles.particles.pm10}}</template>
+								<template v-else-if="particles.particles.pm10 > 154 && particles.particles.pm10 <= 254" :class = "unhealthy1Class">{{particles.particles.pm10}}</template>
+			 					<template v-else-if="particles.particles.pm10 > 254 && particles.particles.pm10 <= 344" :class = "unhealthy2Class">{{particles.particles.pm10}}</template>
+			 					<template v-else-if="particles.particles.pm10 > 344 && particles.particles.pm10 <= 424" :class = "unhealthy3Class">{{particles.particles.pm10}}</template>
+			 					<template v-else-if="particles.particles.pm10 > 424 && particles.particles.pm10 <= 604" :class = "hazardousClass">{{particles.particles.pm10}}</template>
 			 					<template v-else>{{particles.particles.pm10}}</template>
 			 				</option>
 			 			</td>
