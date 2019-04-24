@@ -540,7 +540,6 @@ function getHeatOverlay(){
 		for(var a in app.locations1){
 			var curLoc = app.locations1[a];
 			var curpart = (curLoc.averages[part])/100;
-			console.log(app.locations1[a].averages.pm25);
 			console.log(curpart);
 			var heat = L.heatLayer([
 			[curLoc.lat, curLoc.lon, (curpart)], // lat, lng, intensity
