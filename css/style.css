@@ -116,6 +116,13 @@ p{
 	white-space: nowrap;
 }
 
+#jordan {
+	margin-top: 1rem;
+}
+#lucy {
+	display: inline-block;
+}
+
 #table1{
 	float: left;
 	display:inline-block;
