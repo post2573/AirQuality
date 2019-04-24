@@ -38,7 +38,10 @@ function init(){
                 { value: ">=", text: ">=" },
                 { value: "<=", text: "<=" }
             ],
-            good: 'rgb(0, 228, 0)'
+            goodClass: {
+            	'background-color': 'rgb(0, 228, 0)'
+            }
+            
             
 	   }
 	});
@@ -57,6 +60,7 @@ function init(){
 	$("#map1Full").click(fullScreen);
 	$("#map2Full").click(fullScreen2);
 	$("#map1Heat").click(getHeatOverlay);
+	$("#map2Heat").click(getHeatOverlay2);
 	map1.on('moveend', onMap1Pan);
 	map2.on('moveend', onMap2Pan);
 }
@@ -447,7 +451,7 @@ function placeMarkers2(){
 }
 
 function findAverages(){
-	console.log("AVERAGES FOR MAP1")
+	//console.log("AVERAGES FOR MAP1")
 	for (var b in app.locations1){
 		var curLat = app.locations1[b].lat;
 		var curLon = app.locations1[b].lon;
@@ -529,11 +533,35 @@ function findAverages2(){
 }
 
 function getHeatOverlay(){
-	for(var a in app.locations1){
-		var curLoc = app.locations1[a];
-		var heat = L.heatLayer([
-		[curLoc.lat, curLoc.lon, 0.2], // lat, lng, intensity
-		], {radius: 25}).addTo(map1);
+	var part = $('#hType')[0].value;
+	console.log(part);
+	if (part != ''){
+		//var heat = L.redraw();
+		for(var a in app.locations1){
+			var curLoc = app.locations1[a];
+			var curpart = app.locations1[a].averages.part/100;
+			console.log(app.locations1[a].averages.pm25);
+			console.log(curpart);
+			var heat = L.heatLayer([
+			[curLoc.lat, curLoc.lon, (curpart)], // lat, lng, intensity
+			], {radius: 30}).addTo(map1);
+		}
+	}
+}
+
+function getHeatOverlay2(){
+	var part = $('#hType2')[0].value;
+	console.log(part);
+	if (part != ''){
+		//var heat = L.redraw();
+		for(var a in app.locations2){
+			var curLoc = app.locations2[a];
+			var curpart = app.locations2[a].part/100;
+			console.log(curpart);
+			var heat = L.heatLayer([
+			[curLoc.lat, curLoc.lon, curpart], // lat, lng, intensity
+			], {radius: 30}).addTo(map2);
+		}
 	}
 }
 

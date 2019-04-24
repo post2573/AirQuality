@@ -81,7 +81,14 @@ table th {
 	float: right;
 	margin-right: 3rem;
 }
-
+#map2Heat{
+	float: right;
+	margin-right: 3rem;
+}
+#hType2{
+	float:right;
+	margin-right: 0.5rem;
+}
 #userInput1 {
 	display: inline-block;
 	white-space: nowrap;

@@ -13,7 +13,7 @@
    crossorigin=""></script>
    		
     	
-    	<script type="application/javascript" src="leaflet-heat.js"></script>
+    	<script type="application/javascript" src="javascript/leaflet-heat.js"></script>
    		<script type="application/javascript" src="javascript/air.js"></script>
    		<script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     	<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -33,12 +33,19 @@
 			</div>
 			
 			<div class = "ui">  
-				<div id = fullScreen>
+				<div id = "fullScreen">
 					<button id = "map1Full">Full Screen</button>
 					<button id = "map2Full">Full Screen</button>
 				</div>	
-				<div>
+				<div id = "heatOverlay">
 					<button id = "map1Heat">Add Heat Overlay</button>
+					<select id="hType" v-model="particleType">
+            			<option v-for="option in particleTypeOptions" :value="option.value">{{ option.text }}</option>
+        			</select>
+        			<button id = "map2Heat">Add Heat Overlay</button>
+					<select id="hType2" v-model="particleType">
+            			<option v-for="option in particleTypeOptions" :value="option.value">{{ option.text }}</option>
+        			</select>
 				</div>
 			  	<div id="userInput1">
 			  		<p>Latitude:</p>
@@ -105,13 +112,14 @@
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.pm25 === undefined">-</template>
+								<template v-else-if="particles.particles.pm10 < 45" v-bind:class = "goodClass">{{particles.particles.pm25}}</template>
 			 					<template v-else>{{particles.particles.pm25}}</template>
 			 				</option>
 			 			</td>
 			 			<td v-model = "measurements">
 			 				<option v-for = "particles in measurements">
 			 					<template v-if="particles.particles.pm10 === undefined">-</template>
-			 					<template v-else-if="particles.particles.pm10 < 65"  v-bind:style="{ 'background-color': good }">{{particles.particles.pm10}}</template>
+			 					
 			 						
 			 					<template v-else>{{particles.particles.pm10}}</template>
 			 				</option>
