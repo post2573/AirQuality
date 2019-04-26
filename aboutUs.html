@@ -13,7 +13,7 @@
 	  		<img src = "Photos/selfphoto2.jpg" />
 	  		<p>I am a junior studying Computer Science and Mathematics at the University of St. Thomas. I have interned at Thomson Reuters as a software engineer and I plan to work there is upcoming summer. I love computer science because it forces me to be efficient and creative when problem solving. The skills I have learned from it are applicable for many aspects of life.
 	  		</p>
-	  		<p> In my free time, I work with Dr. Scott Yilek on research. I also participate in PULSE, a dance club on campus, and computer science club. My hobbies include watching Game of Thrones, exercising, eating at new restaurants, and hanging out with my sister (who is a freshman at UST).
+	  		<p> In my free time, I work with Dr. Scott Yilek on research. I also participate in PULSE, a dance club on campus, and computer science club. My hobbies include watching Game of Thrones, exercising, eating at new restaurants, and hanging out with my sister (who is a freshman at UST).</p>
 
   	</div>
   	<div id = "jordan">
@@ -23,6 +23,38 @@
   		<p>Along with schooling, I keep busy with a part-time job working for Hennepin County Government Center in their Information Technology department. I also recently became an assistant coach for my old high school's dance team and kept my passion for dance alive. With the little free time I have, I like to spend time exploring and trying out new restaurants and breweries located around the cities with my family and friends.</p>
 
   	</div>
+
+
+
+    <div id = "toolsUsed">
+      <br/>
+      <h3 id="tools"> Tools We Used </h3>
+      <div id = "aboutTools">
+       <p><b>Leaflet:</b> This API allowed us to display our two maps easily on our webpage. With this API we were able to add markers to various coordinates on the map where particle data had been taken, add popups containing the average values of the data taken at these points, and add a heatmap overlay corresopnding to the amount of a certain particle found in the air at that point.</p>
+       <p><b>Open AQ Platform:</b> This API allowed for us to easily request the air quality measurements for the coordinates that were visible on our maps. The response was a json file, which made it easy to store the data we found into objects and made the data easier to manipulate.</p>
+       <p><b>Nominatim API:</b> We used this API to retrieve city data, as well as latitude and longitude coordinates. This helped us implement the city look up. </p>
+       <p><b>jQuery:</b> This javascript library helped us simplify our code and made a lot of our functions in javascript easier to understand and work with, such as AJAX. This function allowed for us to get and exchange data on our webpage, without having to reload the whole thing each time we got a new piece of data. </p>
+       <p><b>Vue:</b> This framework made it easy for us to organize and maintain all of the data and moving parts of our webpage. We were able to create different objects in the Vue, which helped us structure our data in a way that made it easy to retrieve and manipulate.</p>
+       <br/>
+      </div>
+    </div>
+
+    <div id= "vid"> 
+      <h3>Demo of Application</h3>
+    
+    </div>
+
+    <div id = "interestingFindings">
+      <h3 id = "findings"> Interesting Findings </h3>
+      <ol>
+        <li>St.Paul and Minneapolis, despite being "twin" cities, have very different air qualities.</li>
+        <li>When panning our map, the website tends to lag because we are pulling up to 10,000 data readings.</li>
+        <li>There tends to be more data (markers) in more populated cities.</li>
+        <li>Every particle value was significantly larger in the big cities in China.</li>
+        <li>There are high readings of CO in Munich. NOT GOOD.</li>
+        <li>There tends to be more particles measured in bigger cities.</li>
+      </ol>
+    </div>
 
 
   </body>
